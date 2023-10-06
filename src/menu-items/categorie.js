@@ -6,16 +6,16 @@ const icons = {
     IconDetails
   };
 
-const tache = {
-    id:'tache',
-    title:'Taches',
+const categorie = {
+    id:'categorie',
+    title:'Categorie',
     type:'group',
     children:[
         {
-            id: 'tache1-1',
-            title: 'Liste des Taches',
+            id: 'categorie-1',
+            title: 'Liste des categorie',
             type: 'item',
-            url: '/tache-list',
+            url: '/categorie-list',
             icon: icons.IconListCheck,
             breadcrumbs: false
         },
@@ -23,4 +23,4 @@ const tache = {
     ]
 }
 
-export default tache;
+export default categorie;

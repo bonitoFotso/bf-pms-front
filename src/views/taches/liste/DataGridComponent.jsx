@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import API_URL from '../../../conf';
+import { Link } from 'react-router-dom';
 
 const DataGridComponent = ({ tache, setTache }) => {
     const columns = [
@@ -10,9 +11,9 @@ const DataGridComponent = ({ tache, setTache }) => {
           field: 'id',
           headerName: 'ID',
           width: 90,
-          //renderCell: (params) => (
-          //  <Link to={`/tache/${params.value}`}>{params.value}</Link>
-          //)
+          renderCell: (params) => (
+            <Link to={`/tache/${params.value}`}>{params.value}</Link>
+          )
         },
         {
           field: 'activite',

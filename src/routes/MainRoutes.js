@@ -9,7 +9,10 @@ const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')))
 const Wallet = Loadable(lazy(() => import('views/wallets/dash')));
 const WalletForm = Loadable(lazy(() => import('views/wallets/form')));
 const TacheList = Loadable(lazy(() => import('views/taches/liste')));
+const CategorieListCreate = Loadable(lazy(() => import('views/categories/liste')));
+const CategorieDetailView = Loadable(lazy(() => import('views/categories/detail')));
 const WalletDetails = Loadable(lazy(() => import('views/wallets/detail')));
+const TacheDetails = Loadable(lazy(() => import('views/taches/detail')));
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -67,11 +70,29 @@ const MainRoutes = {
       ]
     },
     {
-      path: '/wallet',
+      path: '/tache',
       children: [
         {
           path: ':id',
-          element: <WalletDetails />
+          element: <TacheDetails />
+        }
+      ]
+    },
+    {
+      path: '/categorie',
+      children: [
+        {
+          path: ':id',
+          element: <CategorieDetailView />
+        }
+      ]
+    },
+    {
+      path: '/',
+      children: [
+        {
+          path: 'categorie-list',
+          element: <CategorieListCreate />
         }
       ]
     },
