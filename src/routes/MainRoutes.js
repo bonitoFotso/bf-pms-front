@@ -8,7 +8,7 @@ import Loadable from 'ui-component/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const Wallet = Loadable(lazy(() => import('views/wallets/dash')));
 const WalletForm = Loadable(lazy(() => import('views/wallets/form')));
-const WalletList = Loadable(lazy(() => import('views/wallets/list')));
+const TacheList = Loadable(lazy(() => import('views/taches/liste')));
 const WalletDetails = Loadable(lazy(() => import('views/wallets/detail')));
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -58,11 +58,11 @@ const MainRoutes = {
       ]
     },
     {
-      path: '/wallet',
+      path: '/',
       children: [
         {
-          path: 'wallet-list',
-          element: <WalletList />
+          path: 'tache-list',
+          element: <TacheList />
         }
       ]
     },
