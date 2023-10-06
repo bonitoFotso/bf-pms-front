@@ -6,12 +6,11 @@ import Loadable from 'ui-component/Loadable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
-const Wallet = Loadable(lazy(() => import('views/wallets/dash')));
-const WalletForm = Loadable(lazy(() => import('views/wallets/form')));
 const TacheList = Loadable(lazy(() => import('views/taches/liste')));
 const CategorieListCreate = Loadable(lazy(() => import('views/categories/liste')));
 const CategorieDetailView = Loadable(lazy(() => import('views/categories/detail')));
-const WalletDetails = Loadable(lazy(() => import('views/wallets/detail')));
+const ActiviteListCreate = Loadable(lazy(() => import('views/activites/liste')));
+const ActiviteDetailView = Loadable(lazy(() => import('views/activites/detail')));
 const TacheDetails = Loadable(lazy(() => import('views/taches/detail')));
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -46,44 +45,26 @@ const MainRoutes = {
       path: '/',
       children: [
         {
-          path: 'wallet',
-          element: <Wallet />
-        }
-      ]
-    },
-    {
-      path: '/wallet',
-      children: [
-        {
-          path: 'wallet-form',
-          element: <WalletForm />
-        }
-      ]
-    },
-    {
-      path: '/',
-      children: [
-        {
           path: 'tache-list',
           element: <TacheList />
-        }
-      ]
-    },
-    {
-      path: '/tache',
-      children: [
+        },
         {
-          path: ':id',
+          path: 'tache/:id',
           element: <TacheDetails />
         }
       ]
     },
+    
     {
-      path: '/categorie',
+      path: '/',
       children: [
         {
-          path: ':id',
-          element: <CategorieDetailView />
+          path: 'activite-list',
+          element: <ActiviteListCreate />
+        },
+        {
+          path: 'activite:id',
+          element: <ActiviteDetailView />
         }
       ]
     },
@@ -93,6 +74,10 @@ const MainRoutes = {
         {
           path: 'categorie-list',
           element: <CategorieListCreate />
+        },
+        {
+          path: 'categorie/:id',
+          element: <CategorieDetailView />
         }
       ]
     },

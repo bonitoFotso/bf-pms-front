@@ -19,7 +19,22 @@ const tache = {
             icon: icons.IconListCheck,
             breadcrumbs: false
         },
-
+        {
+            id: 'categorie-1',
+            title: 'Liste des categorie',
+            type: 'item',
+            url: '/categorie-list',
+            icon: icons.IconListCheck,
+            breadcrumbs: false
+        },
+        {
+            id: 'activite-1',
+            title: 'Liste des activite',
+            type: 'item',
+            url: '/activite-list',
+            icon: icons.IconListCheck,
+            breadcrumbs: false
+        },
     ]
 }
 
