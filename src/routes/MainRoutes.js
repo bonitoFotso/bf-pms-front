@@ -18,6 +18,12 @@ const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
+const AgenceDetail =Loadable(lazy(() => import('views/agences/detail')));
+const AppelantDetail  =Loadable(lazy(() => import('views/appelants/detail')));
+const ClientDetail =Loadable(lazy(() => import('views/clients/detail')));
+const AgenceListCreate =Loadable(lazy(() => import('views/agences/liste')));
+const AppelantListCreate  =Loadable(lazy(() => import('views/appelants/liste')));
+const ClientListCreate =Loadable(lazy(() => import('views/clients/liste')));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
@@ -41,6 +47,46 @@ const MainRoutes = {
         }
       ]
     },
+    {
+      path: '/',
+      children: [
+        {
+          path: 'agence-list',
+          element: <AgenceListCreate />
+        },
+        {
+          path: 'agence/:id', // Utilisez ':' pour capturer l'ID
+          element: <AgenceDetail />
+        }
+      ]
+    },
+    {
+      path: '/',
+      children: [
+        {
+          path: 'appelant-list',
+          element: <AppelantListCreate />
+        },
+        {
+          path: 'appelant/:id', // Utilisez ':' pour capturer l'ID
+          element: <AppelantDetail />
+        }
+      ]
+    },
+    {
+      path: '/',
+      children: [
+        {
+          path: 'client-list',
+          element: <ClientListCreate />
+        },
+        {
+          path: 'client/:id', // Utilisez ':' pour capturer l'ID
+          element: <ClientDetail />
+        }
+      ]
+    },
+    
     {
       path: '/',
       children: [
