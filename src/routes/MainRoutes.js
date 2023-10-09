@@ -24,6 +24,8 @@ const ClientDetail =Loadable(lazy(() => import('views/clients/detail')));
 const AgenceListCreate =Loadable(lazy(() => import('views/agences/liste')));
 const AppelantListCreate  =Loadable(lazy(() => import('views/appelants/liste')));
 const ClientListCreate =Loadable(lazy(() => import('views/clients/liste')));
+const TechnicienListCreate = Loadable(lazy(() => import('views/techniciens/liste')));
+const TechnicienDetail = Loadable(lazy(() => import('views/techniciens/detail')));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
@@ -57,6 +59,19 @@ const MainRoutes = {
         {
           path: 'agence/:id', // Utilisez ':' pour capturer l'ID
           element: <AgenceDetail />
+        }
+      ]
+    },
+    {
+      path: '/',
+      children: [
+        {
+          path: 'technicien-list',
+          element: <TechnicienListCreate />
+        },
+        {
+          path: 'technicien/:id', // Utilisez ':' pour capturer l'ID
+          element: <TechnicienDetail />
         }
       ]
     },
