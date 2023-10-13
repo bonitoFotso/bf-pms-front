@@ -44,8 +44,13 @@ const TechnicienDetail = () => {
       formData.append('tel', updatedTechnicien.tel);
       formData.append('email', updatedTechnicien.email);
       formData.append('matricule', updatedTechnicien.matricule);
+
       if (photoFile) {
+        // Si un nouveau fichier a été sélectionné, mettez à jour la photo
         formData.append('photo', photoFile);
+      } else {
+        // Si aucun fichier n'a été sélectionné, conservez l'URL de l'ancienne photo
+        formData.append('photo', technicien.photo);
       }
 
       const response = await axios.put(`${API_URL}/techniciens/${id}/`, formData, {
@@ -94,9 +99,9 @@ const TechnicienDetail = () => {
           <TextField name="nom" label="Nom" value={updatedTechnicien.nom} onChange={handleFieldChange} />
           <TextField name="prenom" label="Prénom" value={updatedTechnicien.prenom} onChange={handleFieldChange} />
           <TextField name="tel" label="Téléphone" value={updatedTechnicien.tel} onChange={handleFieldChange} />
-          <TextField name="email" label="email" value={updatedTechnicien.email} onChange={handleFieldChange} />
-          <TextField name="matricule" label="matricule" value={updatedTechnicien.matricule} onChange={handleFieldChange} />
-          <input type="file" name="photo" value={updatedTechnicien.photo} onChange={handleFileChange} />
+          <TextField name="email" label="Email" value={updatedTechnicien.email} onChange={handleFieldChange} />
+          <TextField name="matricule" label="Matricule" value={updatedTechnicien.matricule} onChange={handleFieldChange} />
+          <input type="file" name="photo" onChange={handleFileChange} />
           <Button variant="contained" color="primary" onClick={handleSaveClick}>
             Enregistrer
           </Button>
@@ -109,6 +114,8 @@ const TechnicienDetail = () => {
           <p>Nom : {technicien.nom}</p>
           <p>Prénom : {technicien.prenom}</p>
           <p>Téléphone : {technicien.tel}</p>
+          <p>Email : {technicien.email}</p>
+          <p>Matricule : {technicien.matricule}</p>
           <p>Photo : <img src={technicien.photo} alt="Photo du technicien" /></p>
           <Button variant="contained" color="primary" onClick={handleEditClick}>
             Éditer

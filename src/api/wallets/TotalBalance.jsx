@@ -25,7 +25,7 @@ const TotalBalance = () => {
     // Démarrez un minuteur pour effectuer des requêtes périodiques
     const intervalId = setInterval(() => {
       fetchTotalBalance();
-    }, 6000); // Vous pouvez ajuster l'intervalle en millisecondes ici (par exemple, 60000 pour une minute)
+    }, 6000000); // Vous pouvez ajuster l'intervalle en millisecondes ici (par exemple, 60000 pour une minute)
 
     // Nettoyez le minuteur lorsque le composant est démonté
     return () => {

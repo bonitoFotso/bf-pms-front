@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import Axios from 'axios';
+import API_URL from '../../../../conf';
+import { useNavigate } from "react-router-dom";
+import { store } from 'store';
+
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -43,6 +48,8 @@ const FirebaseLogin = ({ ...others }) => {
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
 
   const googleHandler = async () => {
     console.error('Login');
@@ -60,60 +67,11 @@ const FirebaseLogin = ({ ...others }) => {
   return (
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12}>
-          <AnimateButton>
-            <Button
-              disableElevation
-              fullWidth
-              onClick={googleHandler}
-              size="large"
-              variant="outlined"
-              sx={{
-                color: 'grey.700',
-                backgroundColor: theme.palette.grey[50],
-                borderColor: theme.palette.grey[100]
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-              </Box>
-              Sign in with Google
-            </Button>
-          </AnimateButton>
-        </Grid>
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex'
-            }}
-          >
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-
-            <Button
-              variant="outlined"
-              sx={{
-                cursor: 'unset',
-                m: 2,
-                py: 0.5,
-                px: 7,
-                borderColor: `${theme.palette.grey[100]} !important`,
-                color: `${theme.palette.grey[900]}!important`,
-                fontWeight: 500,
-                borderRadius: `${customization.borderRadius}px`
-              }}
-              disableRipple
-              disabled
-            >
-              OR
-            </Button>
-
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-          </Box>
-        </Grid>
+        
+        
         <Grid item xs={12} container alignItems="center" justifyContent="center">
           <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">Sign in with Email address</Typography>
+            <Typography variant="subtitle1">Sign in with Email address </Typography>
           </Box>
         </Grid>
       </Grid>
@@ -122,7 +80,7 @@ const FirebaseLogin = ({ ...others }) => {
         initialValues={{
           email: 'info@codedthemes.com',
           password: '123456',
-          submit: null
+          submit: true
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
@@ -130,6 +88,20 @@ const FirebaseLogin = ({ ...others }) => {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
+            const response = await Axios.post(`${API_URL}/login/`, {
+              email: values.email,
+              password: values.password,
+            });
+            store.set(response.data)
+            setUserData(response.data);
+            navigate("/");
+            // Gérer la réponse de l'API en fonction de votre application (par exemple, stocker le jeton d'authentification)
+            // ...
+        
+            // Si la connexion réussit, rediriger l'utilisateur vers une nouvelle page
+            // Vous devrez importer "history" depuis react-router-dom
+            //history.push('/dashboard');
+        
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);
