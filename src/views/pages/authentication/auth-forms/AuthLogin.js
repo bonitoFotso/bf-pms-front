@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Axios from 'axios';
 import API_URL from '../../../../conf';
-import { useNavigate } from "react-router-dom";
-import { store } from 'store';
-
+import { useNavigate, Link } from "react-router-dom";
+import { loginSuccess } from './action'
+import { useAuth } from 'authContext'; // Importez le hook useAuth
+import React from 'react';
+import { useHistory } from 'react-router-dom'; // Importez useHistory
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
+import { useTheme, makeStyles } from '@mui/material/styles';
 import {
   Box,
   Button,
@@ -39,164 +41,193 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
+import { ACCOUNT_INITIALIZE } from 'store/actions';
 
-// ============================|| FIREBASE - LOGIN ||============================ //
 
-const FirebaseLogin = ({ ...others }) => {
-  const theme = useTheme();
+//============================|| API JWT - LOGIN ||============================//
+
+const RestLogin = (props, { ...others }) => {
+  const dispatcher = useDispatch();
+
   const scriptedRef = useScriptRef();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  const customization = useSelector((state) => state.customization);
-  const [checked, setChecked] = useState(true);
-  const [userData, setUserData] = useState(null);
-  const navigate = useNavigate();
+  const [checked, setChecked] = React.useState(true);
+  const account = useSelector((state) => state.account);
+  const user = useSelector((state) => state.account.user);
+  const history = useHistory(); // Initialisez useHistory
 
-  const googleHandler = async () => {
-    console.error('Login');
-  };
-
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
+      setShowPassword(!showPassword);
   };
 
   const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+      event.preventDefault();
   };
 
   return (
-    <>
-      <Grid container direction="column" justifyContent="center" spacing={2}>
-        
-        
-        <Grid item xs={12} container alignItems="center" justifyContent="center">
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">Sign in with Email address </Typography>
-          </Box>
-        </Grid>
-      </Grid>
+      <React.Fragment>
+          <Formik
+              initialValues={{
+                  email: '',
+                  password: '',
+                  submit: null
+              }}
+              validationSchema={Yup.object().shape({
+                  email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+                  password: Yup.string().max(255).required('Password is required')
+              })}
+              onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
+                  try {
+                    Axios
+                          .post( `${API_URL}/login/`, {
+                              password: values.password,
+                              email: values.email
+                          })
+                          .then(function (response) {
+                              if (response.data.success) {
+                                  console.log(response.data);
+                                  dispatcher({
+                                      type: ACCOUNT_INITIALIZE,
+                                      payload: { isLoggedIn: true, user: response.data.user, token: response.data.token }
+                                  });
+                                  
 
-      <Formik
-        initialValues={{
-          email: 'info@codedthemes.com',
-          password: '123456',
-          submit: true
-        }}
-        validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
-        })}
-        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          try {
-            const response = await Axios.post(`${API_URL}/login/`, {
-              email: values.email,
-              password: values.password,
-            });
-            store.set(response.data)
-            setUserData(response.data);
-            navigate("/");
-            // Gérer la réponse de l'API en fonction de votre application (par exemple, stocker le jeton d'authentification)
-            // ...
-        
-            // Si la connexion réussit, rediriger l'utilisateur vers une nouvelle page
-            // Vous devrez importer "history" depuis react-router-dom
-            //history.push('/dashboard');
-        
-            if (scriptedRef.current) {
-              setStatus({ success: true });
-              setSubmitting(false);
-            }
-          } catch (err) {
-            console.error(err);
-            if (scriptedRef.current) {
-              setStatus({ success: false });
-              setErrors({ submit: err.message });
-              setSubmitting(false);
-            }
-          }
-        }}
-      >
-        {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-          <form noValidate onSubmit={handleSubmit} {...others}>
-            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-email-login"
-                type="email"
-                value={values.email}
-                name="email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                label="Email Address / Username"
-                inputProps={{}}
-              />
-              {touched.email && errors.email && (
-                <FormHelperText error id="standard-weight-helper-text-email-login">
-                  {errors.email}
-                </FormHelperText>
+                                  if (scriptedRef.current) {
+                                      setStatus({ success: true });
+                                      setSubmitting(false);
+                                      // Utilisez history.push pour rediriger l'utilisateur
+                                      history.push('/'); // Redirigez vers la page d'accueil
+                                  }
+                              } else {
+                                  setStatus({ success: false });
+                                  setErrors({ submit: response.data.msg });
+                                  setSubmitting(false);
+                              }
+                          })
+                          .catch(function (error) {
+                              setStatus({ success: false });
+                              //setErrors({ submit: error.response.data.msg });
+                              setSubmitting(false);
+                          });
+                  } catch (err) {
+                      console.error(err);
+                      if (scriptedRef.current) {
+                          setStatus({ success: false });
+                          setErrors({ submit: err.message });
+                          setSubmitting(false);
+                      }
+                  }
+              }}
+          >
+              {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+                  <form noValidate onSubmit={handleSubmit} {...others}>
+                      <FormControl fullWidth error={Boolean(touched.email && errors.email)} >
+                          <InputLabel htmlFor="outlined-adornment-email-login">Email</InputLabel>
+                          <OutlinedInput
+                              id="outlined-adornment-email-login"
+                              type="email"
+                              value={values.email}
+                              name="email"
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              label="Email Address"
+                              
+                          />
+                          {touched.email && errors.email && (
+                              <FormHelperText error id="standard-weight-helper-text-email-login">
+                                  {' '}
+                                  {errors.email}{' '}
+                              </FormHelperText>
+                          )}
+                      </FormControl>
+
+                      <FormControl fullWidth error={Boolean(touched.password && errors.password)}>
+                          <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+                          <OutlinedInput
+                              id="outlined-adornment-password-login"
+                              type={showPassword ? 'text' : 'password'}
+                              value={values.password}
+                              name="password"
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              endAdornment={
+                                  <InputAdornment position="end">
+                                      <IconButton
+                                          aria-label="toggle password visibility"
+                                          onClick={handleClickShowPassword}
+                                          onMouseDown={handleMouseDownPassword}
+                                          edge="end"
+                                      >
+                                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                                      </IconButton>
+                                  </InputAdornment>
+                              }
+                              label="Password"
+                              
+                          />
+                          {touched.password && errors.password && (
+                              <FormHelperText error id="standard-weight-helper-text-password-login">
+                                  {' '}
+                                  {errors.password}{' '}
+                              </FormHelperText>
+                          )}
+                      </FormControl>
+                      <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+                          <FormControlLabel
+                              control={
+                                  <Checkbox
+                                      checked={checked}
+                                      onChange={(event) => setChecked(event.target.checked)}
+                                      name="checked"
+                                      color="primary"
+                                  />
+                              }
+                              label="Remember me"
+                          />
+                          <Typography
+                              variant="subtitle1"
+                              component={Link}
+                              to={props.login ? '/pages/forgot-password/forgot-password' + props.login : '#'}
+                              color="secondary"
+                              sx={{ textDecoration: 'none' }}
+                          >
+                              Forgot Password?
+                          </Typography>
+                      </Stack>
+                      {errors.submit && (
+                          <Box
+                              sx={{
+                                  mt: 3
+                              }}
+                          >
+                              <FormHelperText error>{errors.submit}</FormHelperText>
+                          </Box>
+                      )}
+
+                      <Box
+                          sx={{
+                              mt: 2
+                          }}
+                      >
+                          <AnimateButton>
+                              <Button
+                                  disableElevation
+                                  disabled={isSubmitting}
+                                  fullWidth
+                                  size="large"
+                                  type="submit"
+                                  variant="contained"
+                                  color="secondary"
+                              >
+                                  Sign IN
+                              </Button>
+                          </AnimateButton>
+                      </Box>
+                  </form>
               )}
-            </FormControl>
-
-            <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password-login"
-                type={showPassword ? 'text' : 'password'}
-                value={values.password}
-                name="password"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                      size="large"
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-                inputProps={{}}
-              />
-              {touched.password && errors.password && (
-                <FormHelperText error id="standard-weight-helper-text-password-login">
-                  {errors.password}
-                </FormHelperText>
-              )}
-            </FormControl>
-            <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-              <FormControlLabel
-                control={
-                  <Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />
-                }
-                label="Remember me"
-              />
-              <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-                Forgot Password?
-              </Typography>
-            </Stack>
-            {errors.submit && (
-              <Box sx={{ mt: 3 }}>
-                <FormHelperText error>{errors.submit}</FormHelperText>
-              </Box>
-            )}
-
-            <Box sx={{ mt: 2 }}>
-              <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                  Sign in
-                </Button>
-              </AnimateButton>
-            </Box>
-          </form>
-        )}
-      </Formik>
-    </>
+          </Formik>
+      </React.Fragment>
   );
 };
 
-export default FirebaseLogin;
+export default RestLogin;

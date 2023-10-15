@@ -26,6 +26,7 @@ import SubCard from 'ui-component/cards/SubCard';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { SET_BORDER_RADIUS, SET_FONT_FAMILY } from 'store/actions';
 import { gridSpacing } from 'store/constant';
+import { useAuth } from '../../authContext'; // Importez useAuth depuis le contexte
 
 // concat 'px'
 function valueText(value) {
@@ -35,6 +36,8 @@ function valueText(value) {
 // ==============================|| LIVE CUSTOMIZATION ||============================== //
 
 const Customization = () => {
+  const { isAuthenticated } = useAuth(); // Accédez à l'état d'authentification depuis le contexte
+
   const theme = useTheme();
   const dispatch = useDispatch();
   const customization = useSelector((state) => state.customization);
@@ -133,6 +136,7 @@ const Customization = () => {
             <Grid item xs={12}>
               {/* font family */}
               <SubCard title="Font Family">
+                { isAuthenticated}
                 <FormControl>
                   <RadioGroup
                     aria-label="font-family"

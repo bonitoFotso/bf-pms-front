@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRoutes } from 'react-router-dom';
 
 // routes
@@ -6,6 +7,20 @@ import AuthenticationRoutes from './AuthenticationRoutes';
 
 // ==============================|| ROUTING RENDER ||============================== //
 
-export default function ThemeRoutes() {
-  return useRoutes([MainRoutes, AuthenticationRoutes]);
-}
+
+
+const Routes = () => {
+  return (
+
+          <React.Fragment>
+              {/* Routes for authentication pages */}
+              <AuthenticationRoutes />
+
+
+              {/* Routes for main layouts */}
+              <MainRoutes />
+          </React.Fragment>
+  );
+};
+
+export default Routes;

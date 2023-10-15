@@ -1,6 +1,6 @@
 import { lazy } from 'react';
-
-// project imports
+import PrivateRoute from './protect';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
@@ -18,180 +18,51 @@ const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
-const AgenceDetail =Loadable(lazy(() => import('views/agences/detail')));
-const AppelantDetail  =Loadable(lazy(() => import('views/appelants/detail')));
-const ClientDetail =Loadable(lazy(() => import('views/clients/detail')));
-const AgenceListCreate =Loadable(lazy(() => import('views/agences/liste')));
-const AppelantListCreate  =Loadable(lazy(() => import('views/appelants/liste')));
-const ClientListCreate =Loadable(lazy(() => import('views/clients/liste')));
+const AgenceDetail = Loadable(lazy(() => import('views/agences/detail')));
+const AppelantDetail = Loadable(lazy(() => import('views/appelants/detail')));
+const ClientDetail = Loadable(lazy(() => import('views/clients/detail')));
+const AgenceListCreate = Loadable(lazy(() => import('views/agences/liste')));
+const AppelantListCreate = Loadable(lazy(() => import('views/appelants/liste')));
+const ClientListCreate = Loadable(lazy(() => import('views/clients/liste')));
 const TechnicienListCreate = Loadable(lazy(() => import('views/techniciens/liste')));
 const TechnicienDetail = Loadable(lazy(() => import('views/techniciens/detail')));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
-// ==============================|| MAIN ROUTING ||============================== //
+const MainRoutes = () => {
+  const location = useLocation();
 
-const MainRoutes = {
-  path: '/',
-  element: <MainLayout />,
-  children: [
-    {
-      path: '/',
-      element: <DashboardDefault />
-    },
-    {
-      path: 'dashboard',
-      children: [
-        {
-          path: 'default',
-          element: <DashboardDefault />
-        }
-      ]
-    },
-    {
-      path: '/',
-      children: [
-        {
-          path: 'agence-list',
-          element: <AgenceListCreate />
-        },
-        {
-          path: 'agence/:id', // Utilisez ':' pour capturer l'ID
-          element: <AgenceDetail />
-        }
-      ]
-    },
-    {
-      path: '/',
-      children: [
-        {
-          path: 'technicien-list',
-          element: <TechnicienListCreate />
-        },
-        {
-          path: 'technicien/:id', // Utilisez ':' pour capturer l'ID
-          element: <TechnicienDetail />
-        }
-      ]
-    },
-    {
-      path: '/',
-      children: [
-        {
-          path: 'appelant-list',
-          element: <AppelantListCreate />
-        },
-        {
-          path: 'appelant/:id', // Utilisez ':' pour capturer l'ID
-          element: <AppelantDetail />
-        }
-      ]
-    },
-    {
-      path: '/',
-      children: [
-        {
-          path: 'client-list',
-          element: <ClientListCreate />
-        },
-        {
-          path: 'client/:id', // Utilisez ':' pour capturer l'ID
-          element: <ClientDetail />
-        }
-      ]
-    },
-    
-    {
-      path: '/',
-      children: [
-        {
-          path: 'tache-list',
-          element: <TacheList />
-        },
-        {
-          path: 'tache/:id',
-          element: <TacheDetails />
-        }
-      ]
-    },
-    
-    {
-      path: '/',
-      children: [
-        {
-          path: 'activite-list',
-          element: <ActiviteListCreate />
-        },
-        {
-          path: 'activite:id',
-          element: <ActiviteDetailView />
-        }
-      ]
-    },
-    {
-      path: '/',
-      children: [
-        {
-          path: 'categorie-list',
-          element: <CategorieListCreate />
-        },
-        {
-          path: 'categorie/:id',
-          element: <CategorieDetailView />
-        }
-      ]
-    },
-    {
-      path: 'utils',
-      children: [
-        {
-          path: 'util-typography',
-          element: <UtilsTypography />
-        }
-      ]
-    },
-    {
-      path: 'utils',
-      children: [
-        {
-          path: 'util-color',
-          element: <UtilsColor />
-        }
-      ]
-    },
-    {
-      path: 'utils',
-      children: [
-        {
-          path: 'util-shadow',
-          element: <UtilsShadow />
-        }
-      ]
-    },
-    {
-      path: 'icons',
-      children: [
-        {
-          path: 'tabler-icons',
-          element: <UtilsTablerIcons />
-        }
-      ]
-    },
-    {
-      path: 'icons',
-      children: [
-        {
-          path: 'material-icons',
-          element: <UtilsMaterialIcons />
-        }
-      ]
-    },
-    {
-      path: 'sample-page',
-      element: <SamplePage />
-    }
-  ]
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={<MainLayout />}
+      >
+        <Route index element={<DashboardDefault />} />
+        <Route path="agence-list" element={<AgenceListCreate />} />
+        <Route path="agence/:id" element={<AgenceDetail />} />
+        <Route path="technicien-list" element={<TechnicienListCreate />} />
+        <Route path="technicien/:id" element={<TechnicienDetail />} />
+        <Route path="appelant-list" element={<AppelantListCreate />} />
+        <Route path="appelant/:id" element={<AppelantDetail />} />
+        <Route path="client-list" element={<ClientListCreate />} />
+        <Route path="client/:id" element={<ClientDetail />} />
+        <Route path="tache-list" element={<TacheList />} />
+        <Route path="tache/:id" element={<TacheDetails />} />
+        <Route path="activite-list" element={<ActiviteListCreate />} />
+        <Route path="activite/:id" element={<ActiviteDetailView />} />
+        <Route path="categorie-list" element={<CategorieListCreate />} />
+        <Route path="categorie/:id" element={<CategorieDetailView />} />
+        <Route path="utils/util-typography" element={<UtilsTypography />} />
+        <Route path="utils/util-color" element={<UtilsColor />} />
+        <Route path="utils/util-shadow" element={<UtilsShadow />} />
+        <Route path="icons/tabler-icons" element={<UtilsTablerIcons />} />
+        <Route path="icons/material-icons" element={<UtilsMaterialIcons />} />
+        <Route path="sample-page" element={<SamplePage />} />
+      </Route>
+    </Routes>
+  );
 };
 
 export default MainRoutes;

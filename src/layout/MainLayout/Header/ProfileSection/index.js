@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
+import API_URL from 'conf'
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -45,6 +45,8 @@ const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
   const navigate = useNavigate();
+  const account = useSelector((state) => state.account);
+  const dispatcher = useDispatch();
 
   const [sdm, setSdm] = useState(true);
   const [value, setValue] = useState('');
@@ -55,9 +57,23 @@ const ProfileSection = () => {
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
   const anchorRef = useRef(null);
-  const handleLogout = async () => {
-    console.log('Logout');
-  };
+  const handleLogout = () => {
+    console.log(account.token);
+    axios
+        .post( API_URL + 'users/logout', {token: `${account.token}`}, { headers: { Authorization: `${account.token}` } })
+        .then(function (response) {
+            
+            // Force the LOGOUT
+            //if (response.data.success) {
+                dispatcher({ type: LOGOUT });
+            //} else {
+            //    console.log('response - ', response.data.msg);
+            //}
+        })
+        .catch(function (error) {
+            console.log('error - ', error);
+        });
+};
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {

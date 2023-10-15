@@ -1,11 +1,12 @@
 // store.js
 import { createStore, combineReducers } from 'redux';
-import userReducer from './userReducer';
+import authReducer from './authReducer';
 
 const rootReducer = combineReducers({
-  user: userReducer, // Vous pouvez ajouter d'autres réducteurs ici
+  auth: authReducer,
+  // ... d'autres réducteurs
 });
 
-const userStore = createStore(userReducer);
+const store = createStore(rootReducer);
 
-export default userStore;
+export default store;

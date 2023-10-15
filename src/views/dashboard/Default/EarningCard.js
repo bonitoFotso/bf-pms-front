@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
@@ -59,7 +60,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const EarningCard = ({ isLoading }) => {
   const theme = useTheme();
-
+  const isAuth = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -145,7 +146,7 @@ const EarningCard = ({ isLoading }) => {
                 <Grid container alignItems="center">
                   <Grid item>
                     <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                      <TotalBalance />
+                      
                     </Typography>
                   </Grid>
                   <Grid item>
