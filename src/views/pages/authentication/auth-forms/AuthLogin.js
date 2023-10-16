@@ -6,7 +6,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { loginSuccess } from './action'
 import { useAuth } from 'authContext'; // Importez le hook useAuth
 import React from 'react';
-import { useHistory } from 'react-router-dom'; // Importez useHistory
 
 // material-ui
 import { useTheme, makeStyles } from '@mui/material/styles';
@@ -53,7 +52,7 @@ const RestLogin = (props, { ...others }) => {
   const [checked, setChecked] = React.useState(true);
   const account = useSelector((state) => state.account);
   const user = useSelector((state) => state.account.user);
-  const history = useHistory(); // Initialisez useHistory
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
@@ -90,13 +89,12 @@ const RestLogin = (props, { ...others }) => {
                                       type: ACCOUNT_INITIALIZE,
                                       payload: { isLoggedIn: true, user: response.data.user, token: response.data.token }
                                   });
-                                  
+                                  navigate('/');
 
                                   if (scriptedRef.current) {
                                       setStatus({ success: true });
                                       setSubmitting(false);
-                                      // Utilisez history.push pour rediriger l'utilisateur
-                                      history.push('/'); // Redirigez vers la page d'accueil
+                                     
                                   }
                               } else {
                                   setStatus({ success: false });

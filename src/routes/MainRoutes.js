@@ -3,6 +3,7 @@ import PrivateRoute from './protect';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
+import AuthGuard from 'utils/route-guard/AuthGuard';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -34,6 +35,7 @@ const MainRoutes = () => {
   const location = useLocation();
 
   return (
+    <AuthGuard>
     <Routes>
       <Route
         path="/"
@@ -62,6 +64,7 @@ const MainRoutes = () => {
         <Route path="sample-page" element={<SamplePage />} />
       </Route>
     </Routes>
+    </AuthGuard>
   );
 };
 

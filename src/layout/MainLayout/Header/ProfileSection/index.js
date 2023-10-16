@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import Axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -35,6 +36,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
 import UpgradePlanCard from './UpgradePlanCard';
 import User1 from 'assets/images/users/user-round.svg';
+import { LOGOUT } from 'store/actions';
 
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
@@ -47,6 +49,7 @@ const ProfileSection = () => {
   const navigate = useNavigate();
   const account = useSelector((state) => state.account);
   const dispatcher = useDispatch();
+  const user = useSelector((state) => state.account.user);
 
   const [sdm, setSdm] = useState(true);
   const [value, setValue] = useState('');
@@ -59,10 +62,14 @@ const ProfileSection = () => {
   const anchorRef = useRef(null);
   const handleLogout = () => {
     console.log(account.token);
-    axios
-        .post( API_URL + 'users/logout', {token: `${account.token}`}, { headers: { Authorization: `${account.token}` } })
+    Axios
+        .post( API_URL + '/logout/', {token: `${account.token}`}, {
+          headers: {
+            Authorization: 'Bearer ' + account.token // Assurez-vous d'inclure l'espace après "Bearer"
+          }
+        })
         .then(function (response) {
-            
+            consol.log('log out');
             // Force the LOGOUT
             //if (response.data.success) {
                 dispatcher({ type: LOGOUT });
@@ -72,6 +79,7 @@ const ProfileSection = () => {
         })
         .catch(function (error) {
             console.log('error - ', error);
+            dispatcher({ type: LOGOUT });
         });
 };
 
@@ -175,7 +183,7 @@ const ProfileSection = () => {
                       <Stack direction="row" spacing={0.5} alignItems="center">
                         <Typography variant="h4">Good Morning,</Typography>
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                          Johne Doe
+                          Johne  {account.user._id}
                         </Typography>
                       </Stack>
                       <Typography variant="subtitle2">Project Admin</Typography>

@@ -60,7 +60,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const EarningCard = ({ isLoading }) => {
   const theme = useTheme();
-  const isAuth = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.account.user);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -171,7 +171,7 @@ const EarningCard = ({ isLoading }) => {
                     color: theme.palette.secondary[200]
                   }}
                 >
-                  SOLDE
+                  SOLDE {user.email}
                 </Typography>
               </Grid>
               <Grid item>
