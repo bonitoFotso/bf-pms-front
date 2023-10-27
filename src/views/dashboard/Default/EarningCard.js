@@ -9,8 +9,6 @@ import { Avatar, Box, Grid, Menu, MenuItem, Typography } from '@mui/material';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
-import WalletList from 'api/wallets/WalletList';
-import TotalBalance from 'api/wallets/TotalBalance';
 // assets
 import EarningIcon from 'assets/images/icons/earning.svg';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -176,7 +174,6 @@ const EarningCard = ({ isLoading }) => {
               </Grid>
               <Grid item>
                 {/* Intégrez le composant WalletList ici */}
-                <WalletList />
               </Grid>
             </Grid>
           </Box>

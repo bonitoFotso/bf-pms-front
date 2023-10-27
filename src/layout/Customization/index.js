@@ -36,7 +36,6 @@ function valueText(value) {
 // ==============================|| LIVE CUSTOMIZATION ||============================== //
 
 const Customization = () => {
-  const { isAuthenticated } = useAuth(); // Accédez à l'état d'authentification depuis le contexte
 
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -136,7 +135,7 @@ const Customization = () => {
             <Grid item xs={12}>
               {/* font family */}
               <SubCard title="Font Family">
-                { isAuthenticated}
+                
                 <FormControl>
                   <RadioGroup
                     aria-label="font-family"

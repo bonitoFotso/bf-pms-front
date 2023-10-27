@@ -66,7 +66,7 @@ const ProfileSection = () => {
         .post( API_URL + '/logout/', {token: `${account.token}`}, {
           headers: {
             Authorization: 'Bearer ' + account.token // Assurez-vous d'inclure l'espace après "Bearer"
-          }
+          },
         })
         .then(function (response) {
             consol.log('log out');
@@ -183,7 +183,7 @@ const ProfileSection = () => {
                       <Stack direction="row" spacing={0.5} alignItems="center">
                         <Typography variant="h4">Good Morning,</Typography>
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                          Johne  {account.user._id}
+                          {account.user.email}
                         </Typography>
                       </Stack>
                       <Typography variant="subtitle2">Project Admin</Typography>
@@ -208,7 +208,6 @@ const ProfileSection = () => {
                   </Box>
                   <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
                     <Box sx={{ p: 2 }}>
-                      <UpgradePlanCard />
                       <Divider />
                       <Card
                         sx={{
@@ -282,7 +281,7 @@ const ProfileSection = () => {
                         <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
                           selected={selectedIndex === 1}
-                          onClick={(event) => handleListItemClick(event, 1, '#')}
+                          onClick={(event) => handleListItemClick(event, 1, '/profile')}
                         >
                           <ListItemIcon>
                             <IconUser stroke={1.5} />
@@ -295,7 +294,7 @@ const ProfileSection = () => {
                                 </Grid>
                                 <Grid item>
                                   <Chip
-                                    label="02"
+                                    label="00"
                                     size="small"
                                     sx={{
                                       bgcolor: theme.palette.warning.dark,

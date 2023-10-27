@@ -1,9 +1,10 @@
-import { IconListCheck, IconDetails } from '@tabler/icons';
+import { IconListCheck, IconDetails, IconUser } from '@tabler/icons';
 
 // constant
 const icons = {
     IconListCheck,
-    IconDetails
+    IconDetails,
+    IconUser
   };
 
 const auth = {
@@ -27,6 +28,14 @@ const auth = {
             icon: icons.IconListCheck,
             breadcrumbs: false
         },
+        {
+            id: 'profile-1',
+            title: 'Profile',
+            type: 'item',
+            url: '/profile',
+            icon: icons.IconUser,
+            breadcrumbs: false
+        }
         
     ]
 }

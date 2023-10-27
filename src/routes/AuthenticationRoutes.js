@@ -16,17 +16,17 @@ const AuthenticationRoutes = () => {
   const location = useLocation();
 
   return (
-    <GuestGuard>
     <Routes>
       <Route
         path="/"
         element={<MinimalLayout />}
-      >
+      >   
+
         <Route path="/pages/login/login3" element={<AuthLogin3 />} />
         <Route path="/pages/register/register3" element={<AuthRegister3 />} />
+
       </Route>
     </Routes>
-    </GuestGuard>
   );
 };
 

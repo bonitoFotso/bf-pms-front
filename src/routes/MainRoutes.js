@@ -27,7 +27,7 @@ const AppelantListCreate = Loadable(lazy(() => import('views/appelants/liste')))
 const ClientListCreate = Loadable(lazy(() => import('views/clients/liste')));
 const TechnicienListCreate = Loadable(lazy(() => import('views/techniciens/liste')));
 const TechnicienDetail = Loadable(lazy(() => import('views/techniciens/detail')));
-
+const Profile = Loadable(lazy(() => import('views/profile')));
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
@@ -35,11 +35,10 @@ const MainRoutes = () => {
   const location = useLocation();
 
   return (
-    <AuthGuard>
     <Routes>
       <Route
         path="/"
-        element={<MainLayout />}
+        element={<AuthGuard><MainLayout /></AuthGuard>}
       >
         <Route index element={<DashboardDefault />} />
         <Route path="agence-list" element={<AgenceListCreate />} />
@@ -61,10 +60,11 @@ const MainRoutes = () => {
         <Route path="utils/util-shadow" element={<UtilsShadow />} />
         <Route path="icons/tabler-icons" element={<UtilsTablerIcons />} />
         <Route path="icons/material-icons" element={<UtilsMaterialIcons />} />
+        <Route path="profile" element={<Profile />} />
         <Route path="sample-page" element={<SamplePage />} />
+
       </Route>
     </Routes>
-    </AuthGuard>
   );
 };
 

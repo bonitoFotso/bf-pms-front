@@ -17,7 +17,8 @@ const GuestGuard = ({ children }) => {
     const { isLoggedIn } = account;
 
     if (isLoggedIn) {
-        return <Navigate to={'/'} />;
+        // L'utilisateur est déjà connecté, redirigez-le vers la page d'accueil ou toute autre page appropriée.
+        return <Navigate to="/" />;
     }
 
     return children;
@@ -28,3 +29,4 @@ GuestGuard.propTypes = {
 };
 
 export default GuestGuard;
+

@@ -7,19 +7,19 @@ const WalletList = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8003/api/wallets/');
-        setWallets(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des wallets :', error);
-        setError(error);
-        setLoading(false);
-      }
-    };
+    //const fetchData = async () => {
+    //  try {
+    //    const response = await axios.get('http://127.0.0.1:8003/api/wallets/');
+    //    setWallets(response.data);
+    //    setLoading(false);
+    //  } catch (error) {
+    //    console.error('Erreur lors de la récupération des wallets :', error);
+    //    setError(error);
+    //    setLoading(false);
+    //  }
+    //};
 
-    fetchData();
+    //fetchData();
   }, []);
 
   if (loading) {
