@@ -65,6 +65,10 @@ const EarningCard = ({ isLoading }) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const hh = () => {
+    console.log('bonito');
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -127,7 +131,7 @@ const EarningCard = ({ isLoading }) => {
                       <MenuItem onClick={handleClose}>
                         <GetAppTwoToneIcon sx={{ mr: 1.75 }} /> Import Card
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>
+                      <MenuItem onClick={hh}>
                         <FileCopyTwoToneIcon sx={{ mr: 1.75 }} /> Copy Data
                       </MenuItem>
                       <MenuItem onClick={handleClose}>
