@@ -4,7 +4,7 @@ import Axios from 'axios';
 import API_URL from '../../../../conf';
 import { useNavigate, Link } from "react-router-dom";
 import { loginSuccess } from './action'
-import { useAuth } from 'authContext'; 
+import { useAuth } from 'authContext'; // Importez le hook useAuth
 import React from 'react';
 
 // material-ui
@@ -81,6 +81,11 @@ const RestLogin = (props, { ...others }) => {
                           .post( `${API_URL}/login/`, {
                               password: values.password,
                               email: values.email
+                          },
+                          {
+                            headers: {
+                              'X-CSRF-TOKEN': csrfToken, // Remplacez csrfToken par la valeur réelle de votre jeton CSRF
+                            }
                           })
                           .then(function (response) {
                               if (response.data.success) {
