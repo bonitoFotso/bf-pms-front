@@ -7,9 +7,12 @@ import { gridSpacing } from 'store/constant';
 import TextField from '@mui/material/TextField';
 import API_URL from '../../../conf';
 import { Link } from 'react-router-dom'; // Importez Link
+import { useSelector } from 'react-redux';
 
 const Tab_client = () => {
   const [timeValue, setTimeValue] = useState(true);
+  const token = useSelector((state) => state.account.token);
+
   const handleChangeTime = (event, newValue) => {
     setTimeValue(newValue);
   };
@@ -25,26 +28,37 @@ const Tab_client = () => {
     n_client: '',
     maintenance: false,
   });
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  //useSelector((state) => state.account.token);
+  //const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await axios.get(`${API_URL}/clients/`); // Mettez l'URL correcte de votre API Django
-        setClients(response.data);
-        setT(response.data.length);
-        setLoading(false);
+        const response = await axios.get(`${API_URL}/clients/`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.status === 200) {
+          setClients(response.data);
+          setLoading(false);
+        } else {
+          setError('Échec de la récupération des clients. Statut : ' + response.status);
+          setLoading(false);
+        }
       } catch (error) {
-        console.error('Erreur lors de la récupération des clients :', error);
-        setError(error);
+        console.error('Erreur lors de la récupération des clients :');
+        console.log(token)
+        setError('Une erreur s\'est produite lors de la récupération des clients.');
         setLoading(false);
       }
     };
 
     fetchClients();
-  }, []);
+  }, [token]); // Ajouter des dépendances au besoin
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -57,24 +71,38 @@ const Tab_client = () => {
 
   const handleCreateClient = async () => {
     try {
-      const response = await axios.post(`${API_URL}/clients/`, newClient); // Mettez l'URL correcte de votre API Django
-      setClients([...clients, response.data]);
-      setNewClient({
-        name: '',
-        responsable: '',
-        email: '',
-        phone: '',
-        address: '',
-        city: '',
-        n_client: '',
-        maintenance: false,
-      });
+      const response = await axios.post(
+        `${API_URL}/clients/`,
+        newClient, // Les données du nouveau client à créer
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      if (response.status === 201) {
+        // La création du client a réussi (statut 201 Created)
+        setClients([...clients, response.data]);
+        setNewClient({
+          name: '',
+          responsable: '',
+          email: '',
+          phone: '',
+          address: '',
+          city: '',
+          n_client: '',
+          maintenance: false,
+        });
+      } else {
+        // Gérer les erreurs de création de manière appropriée (par exemple, afficher un message d'erreur à l'utilisateur)
+        console.error('Erreur lors de la création du client :', response.data);
+      }
     } catch (error) {
+      // Gérer les erreurs de manière appropriée (par exemple, afficher un message d'erreur à l'utilisateur)
       console.error('Erreur lors de la création du client :', error);
-      // Gérer les erreurs de création de manière appropriée (par exemple, afficher un message d'erreur à l'utilisateur)
     }
   };
-
+  
   if (loading) {
     return <div>Chargement en cours...</div>;
   }

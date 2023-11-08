@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import API_URL from '../../../conf';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const ClientDetail = () => {
   const { id } = useParams();
@@ -12,11 +13,17 @@ const ClientDetail = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [updatedClient, setUpdatedClient] = useState({});
   const [error, setError] = useState(null);
+  const token = useSelector((state) => state.account.token);
 
   useEffect(() => {
     const fetchClientDetails = async () => {
       try {
-        const response = await axios.get(`${API_URL}/clients/${id}/`);
+        const response = await axios.get(`${API_URL}/clients/${id}/`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         setClient(response.data);
         setLoading(false);
       } catch (error) {

@@ -63,6 +63,11 @@ const RestLogin = (props, { ...others }) => {
       event.preventDefault();
   };
 
+  function storeTokens(token, refresh) {
+    localStorage.setItem('accessToken', JSON.stringify(token));
+    localStorage.setItem('refreshToken', JSON.stringify(refresh));
+  }
+
   return (
       <React.Fragment>
           <Formik
@@ -82,17 +87,14 @@ const RestLogin = (props, { ...others }) => {
                               password: values.password,
                               email: values.email
                           },
-                          {
-                            headers: {
-                              'X-CSRF-TOKEN': csrfToken, // Remplacez csrfToken par la valeur réelle de votre jeton CSRF
-                            }
-                          })
+                          )
                           .then(function (response) {
                               if (response.data.success) {
-                                  console.log(response.data);
+                                  
+                                  storeTokens(response.data.token,response.data.refresh);
                                   dispatcher({
                                       type: ACCOUNT_INITIALIZE,
-                                      payload: { isLoggedIn: true, user: response.data.user, token: response.data.token }
+                                      payload: { isLoggedIn: true, user: response.data.user, token: response.data.token, refresh: response.data.refresh }
                                   });
                                   navigate('/');
 

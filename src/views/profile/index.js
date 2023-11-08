@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { AccountProfile } from './account-profile';
+import AccountProfile from './AccountProfile';
 import { AccountProfileDetails } from './account-profile-details';
 import { Box, Container, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
 

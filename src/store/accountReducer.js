@@ -1,8 +1,9 @@
 // action - state management
-import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT } from './actions';
+import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT, REFRESH } from './actions';
 
 export const initialState = {
-    token: '123456',
+    token: '',
+    refresh: '',
     isLoggedIn: false,
     isInitialized: false,
     user: null
@@ -13,13 +14,22 @@ export const initialState = {
 const accountReducer = (state = initialState, action) => {
     switch (action.type) {
         case ACCOUNT_INITIALIZE: {
-            const { isLoggedIn, user, token } = action.payload;
+            const { isLoggedIn, user, token,refresh } = action.payload;
             return {
                 ...state,
                 isLoggedIn,
                 isInitialized: true,
                 token,
+                refresh,
                 user
+            };
+        }
+        case REFRESH :{
+            const {token, refresh} = action.payload;
+            return {
+                ...state,
+                token,
+                refresh
             };
         }
         case LOGIN: {
