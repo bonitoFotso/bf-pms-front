@@ -1,36 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import API_URL from '../../../conf';
-import DataGridComponent from './DataGridComponent';
+import DataGridComponent from './component/DataGrid';
 import LoadingErrorComponent from './LoadingErrorComponent';
+import { Card } from '@mui/material';
 
 const TacheList = () => {
-  const [tache, setTache] = useState([]);
+  const [all, setAll] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchTacheData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/taches/`);
-        setTache(response.data);
+        const response = await axios.get(`${API_URL}/all/`);
+        setAll(response.data);
         setLoading(false);
       } catch (error) {
-        console.error('Erreur lors de la récupération des tâches :', error);
+        console.error('Erreur lors de la récupération des all :', error);
         setError(error);
         setLoading(false);
       }
     };
 
     fetchTacheData();
+    //console.log(all);
   }, []);
-
+  //console.log(all);
   return (
-    <div>
+    <Card>
       <h2>Liste des Tâches</h2>
       <LoadingErrorComponent loading={loading} error={error} />
-      <DataGridComponent tache={tache} setTache={setTache} />
-    </div>
+      <DataGridComponent all={all}  />
+    </Card>
   );
 };
 

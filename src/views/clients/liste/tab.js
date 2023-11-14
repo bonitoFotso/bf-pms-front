@@ -5,7 +5,7 @@ import { Grid /*, MenuItem*/, Button, Typography } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import TextField from '@mui/material/TextField';
-import API_URL from '../../../conf';
+import API_URL from 'conf';
 import { Link } from 'react-router-dom'; // Importez Link
 import { useSelector } from 'react-redux';
 
