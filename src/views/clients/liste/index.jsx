@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { gridSpacing } from 'store/constant';
-import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
-import C1 from './c1';
-import C2 from './c2';
+
 
 import Tab_client from './tab'
 import ClientChart from './chart';
-ClientChart
+
 const ClientListCreate = () => {
   
   const [isLoading, setLoading] = useState(true);
@@ -20,10 +18,11 @@ const ClientListCreate = () => {
 
   return (
     <Grid container spacing={gridSpacing}>
-      <ClientChart />
+      
       <Grid item xs={12}>
         <Grid item xs={12} >
-          </Grid>
+          <ClientChart />
+        </Grid>
       </Grid>
       <Grid item xs={12}>
       <Tab_client/>

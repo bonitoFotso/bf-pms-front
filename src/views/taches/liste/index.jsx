@@ -4,6 +4,7 @@ import API_URL from '../../../conf';
 import DataGridComponent from './component/DataGrid';
 import LoadingErrorComponent from './LoadingErrorComponent';
 import { Card } from '@mui/material';
+import CreerTache from './creer';
 
 const TacheList = () => {
   const [all, setAll] = useState([]);
@@ -30,6 +31,7 @@ const TacheList = () => {
   return (
     <Card>
       <h2>Liste des Tâches</h2>
+      <CreerTache all={all} />
       <LoadingErrorComponent loading={loading} error={error} />
       <DataGridComponent all={all}  />
     </Card>

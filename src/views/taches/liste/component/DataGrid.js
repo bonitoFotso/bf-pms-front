@@ -34,17 +34,21 @@ const DataGridComponent = ({ all }) => {
   const handleCloseModal = () => {
     setSelectedTask(null);
     setIsModalOpen(false);
+    console.log('close',selectedTask);
   };
 
   const onSubmit = () => {
     fetchTaskData();
     handleCloseModal();
+    setSelectedTask(null);
+    console.log('submit',selectedTask);
+
   };
 
   return (
     <div style={{ height: 400, width: '100%' }}>
       <TaskGrid tasks={tasks} handleEditClick={handleEditClick} />
-      <Modal title="Modifier la tâche" open={isModalOpen} onCancel={handleCloseModal} footer={null} width={1000}>
+      <Modal title="Modifier la tâche" open={isModalOpen} onCancel={handleCloseModal} footer={null} width={500}>
         {selectedTask && <EditTaskForm initialValues={selectedTask} onSubmit={onSubmit} onCancel={handleCloseModal} all={all} />}
       </Modal>
     </div>

@@ -12,9 +12,8 @@ const { Option } = Select;
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 
-const EditTaskForm = ({ initialValues, onSubmit, onCancel, all }) => {
+const TaskForm = ({ onSubmit, onCancel, all }) => {
   const [form] = Form.useForm();
-  console.log(initialValues);
 
   const handleSubmit = () => {
     form
@@ -23,14 +22,14 @@ const EditTaskForm = ({ initialValues, onSubmit, onCancel, all }) => {
         
 
         axios
-          .put(`${API_URL}/taches/${initialValues.id}`, values)
+          .post(`${API_URL}/taches-c/`, values)
           .then((response) => {
-            console.log('Tâche mise à jour avec succès:', response.data);
             form.resetFields();
-            onSubmit(response.data);
+            console.log('Tâche Creer avec succès:', response.data);
+            onSubmit();
           })
           .catch((error) => {
-            console.error('Erreur lors de la mise à jour de la tâche :', error);
+            console.error('Erreur lors de la Creation de la tâche :', error);
           });
       })
       .catch((error) => {
@@ -40,20 +39,6 @@ const EditTaskForm = ({ initialValues, onSubmit, onCancel, all }) => {
 
   return (
     <Form form={form} 
-    initialValues={{
-        activite: initialValues.activite.map((act) => act.id),
-        categorie: initialValues.categorie.map((cat) => cat.id),
-        nom: initialValues.nom,
-        status: initialValues.status,
-        priorite: initialValues.priorite,
-        appelant: initialValues.appelant.id,
-        assignations: initialValues.assignations.map((ass) => ass.id),
-        description: initialValues.description,
-        n_OS: initialValues.n_OS,
-        date_debut: initialValues.date_debut ? moment(initialValues.date_debut) : null,
-        date_fin: initialValues.date_fin ? moment(initialValues.date_fin) : null,
-        // ... autres valeurs initiales
-      }}
       >
     {/* Inclure les champs de formulaire nécessaires pour la modification */}
     <Form.Item
@@ -138,4 +123,4 @@ const EditTaskForm = ({ initialValues, onSubmit, onCancel, all }) => {
   );
 };
 
-export default EditTaskForm;
+export default TaskForm;

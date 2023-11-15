@@ -175,7 +175,21 @@ const EarningCard = ({ isLoading }) => {
                 >
                   SOLDE {user.email}
                 </Typography>
+
               </Grid>
+              <Grid item sx={{ mb: 1.25 }}>
+                <Typography
+                  sx={{
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    color: theme.palette.secondary[200]
+                  }}
+                >
+                  SOLDE {user.email}
+                </Typography>
+                
+              </Grid>
+              
               <Grid item>
                 {/* Intégrez le composant WalletList ici */}
               </Grid>
